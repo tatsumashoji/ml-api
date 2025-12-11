@@ -13,7 +13,11 @@ from scipy.stats import pearsonr
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    supports_credentials=False
+)
 
 # モデル読み込み（起動時に一度だけ）
 with open('model.pkl', 'rb') as f:
