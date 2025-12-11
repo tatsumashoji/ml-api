@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pickle
 import pandas as pd
 import numpy as np
@@ -12,7 +13,7 @@ from scipy.stats import pearsonr
 
 
 app = Flask(__name__)
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # モデル読み込み（起動時に一度だけ）
 with open('model.pkl', 'rb') as f:
