@@ -41,4 +41,4 @@ def predict():
 
     y_pred = model.predict(X)[0]
 
-    return jsonify({"prediction": float(y_pred)})
+    return jsonify({"prediction": f'{round(float(y_pred), 2)}歳'})
