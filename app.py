@@ -20,9 +20,12 @@ CORS(
 )
 
 # モデル読み込み（起動時に一度だけ）
-with open('model.pkl', 'rb') as f:
-    model = pickle.load( f)
+with open('model_m_PCEpiclockAge.pkl', 'rb') as f:
+    model_m = pickle.load(f)
 
+# モデル読み込み（起動時に一度だけ）
+with open('model_f_PCEpiclockAge.pkl', 'rb') as f:
+    model_f = pickle.load( f)
 
 @app.route("/")
 def health():
@@ -37,8 +40,13 @@ def predict():
 
     # 必要に応じて前処理
     # X = preprocess(answers)
-    X = [answers]  # 例: そのまま1サンプルとして入れる
+    sex = answers[0]
+    age = answers[1]
+    X = [answers[2:] + [age]]
 
-    y_pred = model.predict(X)[0]
+    if int(sex) == 0:
+        y_pred = model_m.predict(X)[0]
+    else:
+        y_pred = model_f.predict(X)[0]
 
     return jsonify({"prediction": f'{round(float(y_pred), 2)}歳'})
